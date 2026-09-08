@@ -83,8 +83,17 @@
     color:var(--bege);
   }
   @media (max-width:720px){
-    .topbar{padding:14px 18px;}
-    .topbar nav{display:none;}
+    .topbar{padding:14px 18px; flex-wrap:wrap;}
+    .topbar nav{
+      width:100%;
+      justify-content:flex-start;
+      overflow-x:auto;
+      flex-wrap:nowrap;
+      -webkit-overflow-scrolling:touch;
+      padding-bottom:2px;
+    }
+    .topbar nav::-webkit-scrollbar{display:none;}
+    .topbar nav a{white-space:nowrap;}
   }
 
   main{position:relative; z-index:1;}
