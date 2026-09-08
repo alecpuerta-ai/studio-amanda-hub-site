@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Amanda — Central da Marca</title>
+<meta name="description" content="Manual da marca Studio Amanda: logotipo, paleta de cores, tipografia, patterns e aplicações.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bordo:#5C1A2B;
+    --bordo-deep:#3d0f1c;
+    --rose:#CBA49F;
+    --mauve:#B4A69D;
+    --bege:#E8DDD3;
+    --bg:#EAD9CB;
+    --panel:#F2E7DC;
+    --ink:#3a2c27;
+    --ink-soft:#7a675f;
+    --rule: rgba(92,26,43,0.18);
+    --maxw: 1000px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .bg-corner{
+    position:fixed;
+    top:0;
+    width:150px;
+    opacity:0.55;
+    pointer-events:none;
+    z-index:0;
+    mix-blend-mode:multiply;
+  }
+  .bg-corner.left{left:0;}
+  .bg-corner.right{right:0; transform:scaleX(-1);}
+  @media (max-width:820px){ .bg-corner{width:90px; opacity:0.35;} }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px;
+    padding:18px 32px;
+    background:rgba(234,217,203,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--rule);
+  }
+  .topbar .brand{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    letter-spacing:0.06em;
+    font-size:19px;
+    color:var(--bordo);
+    white-space:nowrap;
+  }
+  .topbar nav{
+    display:flex; flex-wrap:wrap; gap:4px 6px;
+    justify-content:flex-end;
+  }
+  .topbar nav a{
+    text-decoration:none;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    padding:8px 12px;
+    border-radius:20px;
+    transition:background .2s,color .2s;
+  }
+  .topbar nav a:hover, .topbar nav a.active{
+    background:var(--bordo);
+    color:var(--bege);
+  }
+  @media (max-width:720px){
+    .topbar{padding:14px 18px;}
+    .topbar nav{display:none;}
+  }
+
+  main{position:relative; z-index:1;}
+
+  section{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:76px 32px;
+  }
+  .rule{
+    max-width:var(--maxw);
+    margin:0 auto;
+    border:none;
+    border-top:1px solid var(--rule);
+  }
+
+  .eyebrow{
+    text-align:center;
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.28em;
+    color:var(--bordo);
+    margin:0 0 40px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align:center;
+    padding-top:56px;
+  }
+  .hero-body{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:28px;
+  }
+  .hero-tagline{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:16.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+  }
+  .hero-tagline.right{text-align:left;}
+  .hero-tagline.left{text-align:right;}
+  .hero-logo{
+    width:290px;
+    margin:0 auto;
+  }
+  @media (max-width:760px){
+    .hero-body{grid-template-columns:1fr; gap:18px;}
+    .hero-tagline.left, .hero-tagline.right{text-align:center;}
+    .hero-logo{width:210px;}
+  }
+  .hero-cta{
+    display:inline-block;
+    margin-top:36px;
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    color:var(--bordo);
+    text-decoration:none;
+    border-bottom:1px solid var(--bordo);
+    padding-bottom:2px;
+  }
+
+  /* ---------- variações ---------- */
+  #logotipo{text-align:center;}
+  .variations{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    flex-wrap:wrap;
+    background:var(--panel);
+    border-radius:4px;
+    padding:34px 20px;
+  }
+  .variations img{max-width:640px; width:100%;}
+
+  /* ---------- paleta ---------- */
+  #paleta{text-align:center;}
+  .palette-sub{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:-24px 0 44px;
+  }
+  .swatches{
+    display:flex;
+    justify-content:center;
+    gap:34px;
+    flex-wrap:wrap;
+  }
+  .swatch{
+    background:none; border:none; cursor:pointer;
+    font-family:'Manrope',sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    width:130px;
+    padding:0;
+  }
+  .swatch .dot{
+    width:78px; height:78px; border-radius:50%;
+    box-shadow:0 10px 22px rgba(61,15,28,0.18);
+    margin-bottom:16px;
+    transition:transform .18s;
+  }
+  .swatch:hover .dot{transform:translateY(-4px);}
+  .swatch .hex{
+    font-size:13px; font-weight:700; letter-spacing:0.03em;
+    color:var(--ink);
+  }
+  .swatch .label{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:4px;
+    line-height:1.4;
+  }
+  .swatch .feedback{
+    font-size:11px;
+    color:var(--bordo);
+    font-weight:700;
+    height:16px;
+    margin-top:4px;
+  }
+
+  /* ---------- tipografia ---------- */
+  .type-block-title{
+    text-align:center;
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.2em;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+  }
+  .type-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin-bottom:64px;
+  }
+  .type-card{
+    background:var(--panel);
+    padding:32px 30px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:22px;
+    align-items:center;
+  }
+  .type-card .big-aa{
+    font-size:64px;
+    line-height:1;
+    color:var(--bordo);
+  }
+  .type-card.artes-a .big-aa{font-family:'Cormorant Garamond',serif; font-weight:500;}
+  .type-card.artes-b .big-aa{font-family:'Manrope',sans-serif; font-weight:700;}
+  .type-card.stories-a .big-aa{font-family:'Mrs Saint Delafield',cursive; font-size:76px; color:var(--bordo);}
+  .type-card.stories-b .big-aa{font-family:'Manrope',sans-serif; font-weight:800;}
+  .type-card .type-label{
+    font-size:13.5px; font-weight:700; color:var(--ink);
+    margin:0 0 8px;
+  }
+  .type-card .alphabet{
+    font-size:13px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .type-card.artes-a .alphabet, .type-card.artes-b .alphabet{font-family:inherit;}
+  .type-card.artes-a .alphabet{font-family:'Cormorant Garamond',serif; font-size:15px;}
+  .type-card.stories-a .alphabet{font-family:'Mrs Saint Delafield',cursive; font-size:16px; font-style:italic;}
+
+  .type-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    margin-bottom:26px;
+  }
+  .type-table th, .type-table td{
+    text-align:left;
+    padding:12px 14px;
+    border-bottom:1px solid var(--rule);
+  }
+  .type-table th{
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    font-weight:700;
+  }
+  .type-note{
+    background:var(--panel);
+    border-left:3px solid var(--bordo);
+    padding:16px 20px;
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin-top:22px;
+  }
+
+  /* ---------- patterns ---------- */
+  #patterns{text-align:center;}
+  .patterns-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+  }
+  .patterns-row img{width:100%; height:190px; object-fit:cover;}
+  @media (max-width:640px){
+    .patterns-row{grid-template-columns:1fr;}
+    .patterns-row img{height:150px;}
+  }
+
+  /* ---------- aplicações ---------- */
+  #aplicacoes{text-align:center;}
+  .apps-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+  }
+  .apps-row figure{margin:0;}
+  .apps-row img{
+    width:100%; aspect-ratio:3/4; object-fit:cover;
+    border-radius:3px;
+    box-shadow:0 14px 30px rgba(61,15,28,0.16);
+  }
+  .apps-row figcaption{
+    margin-top:10px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+  }
+  @media (max-width:680px){
+    .apps-row{grid-template-columns:repeat(2,1fr); gap:20px;}
+  }
+
+  /* ---------- generic content sections (space, flyer, generator) ---------- */
+  .content-section{text-align:center;}
+  .content-section h2{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:30px;
+    color:var(--bordo);
+    margin:0 0 16px;
+  }
+  .content-section p{
+    max-width:560px;
+    margin:0 auto 26px;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-soft);
+  }
+  .link-btn{
+    display:inline-block;
+    text-decoration:none;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--bege);
+    background:var(--bordo);
+    padding:13px 26px;
+    border-radius:30px;
+    transition:background .2s, transform .15s;
+  }
+  .link-btn:hover{background:var(--bordo-deep); transform:translateY(-1px);}
+  .link-btn.ghost{
+    background:none;
+    color:var(--bordo);
+    border:1px solid var(--bordo);
+  }
+  .link-btn.ghost:hover{background:var(--bordo); color:var(--bege);}
+
+  /* ---------- footer ---------- */
+  footer{
+    text-align:center;
+    padding:40px 24px 56px;
+    font-size:11px;
+    letter-spacing:0.16em;
+    color:var(--ink-soft);
+  }
+  footer .dot{color:var(--mauve); margin:0 10px;}
+
+  @media (max-width:600px){
+    section{padding:56px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<img class="bg-corner left" src="assets/leaf-tl.jpg" alt="" aria-hidden="true">
+<img class="bg-corner right" src="assets/leaf-tr.jpg" alt="" aria-hidden="true">
+
+<header class="topbar">
+  <div class="brand">✦ Studio Amanda</div>
+  <nav>
+    <a href="#inicio" class="active">Início</a>
+    <a href="#logotipo">Logotipo</a>
+    <a href="#paleta">Paleta de cores</a>
+    <a href="#tipografia">Tipografia</a>
+    <a href="#espaco">Projeto do espaço</a>
+    <a href="#panfleto">Modelo de panfleto</a>
+    <a href="gerador_prompts.html">Gerador de prompts</a>
+  </nav>
+</header>
+
+<main>
+
+  <section id="inicio" class="hero">
+    <p class="eyebrow">Logo Principal</p>
+    <div class="hero-body">
+      <p class="hero-tagline left">Beleza<br>que realça<br>a sua essência</p>
+      <img class="hero-logo" src="assets/logo-principal.jpg" alt="Logotipo dourado Studio Amanda">
+      <p class="hero-tagline right">Autocuidado<br>é um ato<br>de amor</p>
+    </div>
+    <a class="hero-cta" href="https://drive.google.com/drive/folders/1R5sOUY-0o-45X0R2MN6jTVCljf96izxO" target="_blank" rel="noopener">Abrir pasta do logotipo no Drive</a>
+  </section>
+
+  <hr class="rule">
+
+  <section id="logotipo">
+    <p class="eyebrow">Variações do Logo</p>
+    <div class="variations">
+      <img src="assets/variacoes.jpg" alt="Variações do logotipo Studio Amanda: horizontal, circular e símbolo">
+    </div>
+    <p style="text-align:center;margin-top:14px;">
+      <a class="hero-cta" href="https://drive.google.com/drive/folders/1R5sOUY-0o-45X0R2MN6jTVCljf96izxO" target="_blank" rel="noopener">Abrir pasta do logotipo no Drive</a>
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="paleta">
+    <p class="eyebrow">Paleta de Cores</p>
+    <p class="palette-sub">Cores oficiais da marca. Clique em qualquer cor para copiar o código hex.</p>
+    <div class="swatches">
+      <button class="swatch" data-hex="#5C1A2B">
+        <span class="dot" style="background:#5C1A2B"></span>
+        <span class="hex">#5C1A2B</span>
+        <span class="label">Bordô — acento principal</span>
+        <span class="feedback"></span>
+      </button>
+      <button class="swatch" data-hex="#CBA49F">
+        <span class="dot" style="background:#CBA49F"></span>
+        <span class="hex">#CBA49F</span>
+        <span class="label">Rosé — apoio</span>
+        <span class="feedback"></span>
+      </button>
+      <button class="swatch" data-hex="#B4A69D">
+        <span class="dot" style="background:#B4A69D"></span>
+        <span class="hex">#B4A69D</span>
+        <span class="label">Mauve — parede atual</span>
+        <span class="feedback"></span>
+      </button>
+      <button class="swatch" data-hex="#E8DDD3">
+        <span class="dot" style="background:#E8DDD3"></span>
+        <span class="hex">#E8DDD3</span>
+        <span class="label">Bege — respiro/fundo</span>
+        <span class="feedback"></span>
+      </button>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="tipografia">
+    <p class="eyebrow">Tipografia</p>
+
+    <p class="type-block-title">Tipografia Artes</p>
+    <div class="type-grid">
+      <div class="type-card artes-a">
+        <span class="big-aa">Aa</span>
+        <div>
+          <p class="type-label">Fonte principal — Cormorant Garamond</p>
+          <p class="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p>
+        </div>
+      </div>
+      <div class="type-card artes-b">
+        <span class="big-aa">Aa</span>
+        <div>
+          <p class="type-label">Fonte secundária — Manrope</p>
+          <p class="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="type-block-title">Tipografia Stories</p>
+    <div class="type-grid" style="margin-bottom:40px;">
+      <div class="type-card stories-a">
+        <span class="big-aa">Aa</span>
+        <div>
+          <p class="type-label">Literature para destaques</p>
+          <p class="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p>
+        </div>
+      </div>
+      <div class="type-card stories-b">
+        <span class="big-aa">Aa</span>
+        <div>
+          <p class="type-label">Deco para textos secundários</p>
+          <p class="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p>
+        </div>
+      </div>
+    </div>
+
+    <table class="type-table">
+      <thead>
+        <tr><th>Fonte</th><th>Onde usar</th><th>Como obter</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cormorant Garamond</td>
+          <td>Títulos, wordmark, frases</td>
+          <td>Precisa instalar — baixe o arquivo e instale no computador antes de usar no Canva/Illustrator/Word</td>
+        </tr>
+        <tr>
+          <td>Manrope</td>
+          <td>Textos, preços, botões</td>
+          <td>Precisa instalar — baixe o arquivo e instale no computador antes de usar no Canva/Illustrator/Word</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="text-align:center;">
+      <a class="hero-cta" href="https://drive.google.com/drive/folders/1TQ3omUbnQWQZt22Hc6Ypo9kMaH72azHf" target="_blank" rel="noopener">Baixar arquivos das fontes (Drive)</a>
+    </p>
+
+    <p class="type-note"><strong>Como instalar:</strong> baixe o arquivo da fonte no link acima, abra o arquivo (.ttf/.otf) e clique em “Instalar” — no Windows ou Mac. Depois disso ela aparece disponível em qualquer programa, incluindo o Canva.<br><br><strong>Fontes nativas do Instagram:</strong> Literature e Deco só existem dentro do app do Instagram — não são arquivos para baixar/instalar. Literature entra em títulos e frases de destaque nos Stories/Reels; Deco entra em legendas e informações secundárias (horários, preços, avisos).</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="patterns">
+    <p class="eyebrow">Patterns</p>
+    <div class="patterns-row">
+      <img src="assets/pattern1.jpg" alt="Pattern claro com o símbolo Studio Amanda">
+      <img src="assets/pattern2.jpg" alt="Pattern bordô com o símbolo Studio Amanda">
+      <img src="assets/pattern3.jpg" alt="Pattern rosé com o símbolo Studio Amanda">
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="aplicacoes">
+    <p class="eyebrow">Aplicações</p>
+    <div class="apps-row">
+      <figure>
+        <img src="assets/app-sacola.jpg" alt="Sacola personalizada Studio Amanda">
+        <figcaption>Embalagem</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/app-tabela.jpg" alt="Tabela de preços Studio Amanda">
+        <figcaption>Tabela de preços</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/app-fachada.jpg" alt="Fachada do salão Studio Amanda">
+        <figcaption>Fachada</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/app-interior.jpg" alt="Ambiente interno do salão Studio Amanda">
+        <figcaption>Ambiente</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="espaco" class="content-section">
+    <h2>Projeto do espaço</h2>
+    <p>Fotos de referência do salão e do ambiente que orientaram a paleta de cores (mauve e rosé foram extraídos direto das paredes e móveis já existentes).</p>
+    <a class="link-btn ghost" href="https://drive.google.com/drive/folders/1CeMv3PP1GwJG8TtEQY2TW0v1T_aEkWh2" target="_blank" rel="noopener">Abrir pasta de fotos do espaço no Drive</a>
+  </section>
+
+  <hr class="rule">
+
+  <section id="panfleto" class="content-section">
+    <h2>Modelo de panfleto</h2>
+    <p>Modelo editável no Canva, já na identidade visual da marca — é só trocar os preços e serviços quando precisar atualizar.</p>
+    <a class="link-btn ghost" href="https://canva.link/lq045e25bihhysy" target="_blank" rel="noopener">Abrir modelo no Canva</a>
+  </section>
+
+  <hr class="rule">
+
+  <section id="gerador" class="content-section">
+    <h2>Gerador de prompts</h2>
+    <p>Preencha o tipo de conteúdo e receba um prompt pronto para o ChatGPT, já seguindo a identidade da marca.</p>
+    <a class="link-btn" href="gerador_prompts.html">Abrir gerador de prompts</a>
+  </section>
+
+</main>
+
+<footer>
+  STUDIO AMANDA <span class="dot">—</span> BELEZA · AUTOCUIDADO · CONFIANÇA · VOCÊ <span class="dot">—</span> DESDE SEMPRE COM VOCÊ
+</footer>
+
+<script>
+  document.querySelectorAll('.swatch').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var hex = btn.getAttribute('data-hex');
+      var feedback = btn.querySelector('.feedback');
+      navigator.clipboard.writeText(hex).then(function(){
+        feedback.textContent = 'Copiado ✓';
+        setTimeout(function(){ feedback.textContent = ''; }, 1600);
+      });
+    });
+  });
+
+  document.querySelectorAll('.topbar nav a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(){
+      document.querySelectorAll('.topbar nav a').forEach(function(a){ a.classList.remove('active'); });
+      link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
+
