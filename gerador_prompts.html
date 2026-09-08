@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Amanda — Gerador de Prompts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bordo:#5C1A2B;
+    --bordo-deep:#3d0f1c;
+    --rose:#CBA49F;
+    --mauve:#B4A69D;
+    --bege:#E8DDD3;
+    --ink:#2b2321;
+    --ink-soft:#6b5a56;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Manrope',sans-serif; background:var(--bege); color:var(--ink); min-height:100vh;}
+  a{color:inherit;}
+
+  .wrap{display:grid; grid-template-columns:1fr; min-height:100vh;}
+  @media (min-width:900px){ .wrap{grid-template-columns:44% 56%;} }
+
+  .form-panel{
+    background:linear-gradient(180deg, var(--bordo-deep) 0%, var(--bordo) 100%);
+    color:var(--bege);
+    padding:44px 40px 60px;
+  }
+  .brand-mark{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:18px; letter-spacing:0.05em; margin-bottom:6px;
+  }
+  .back-link{
+    display:inline-block; font-size:12px; color:rgba(232,221,211,0.75);
+    text-decoration:none; margin-bottom:26px;
+  }
+  .back-link:hover{color:var(--bege);}
+  .form-title{
+    font-family:'Cormorant Garamond',serif; font-weight:600; font-size:30px;
+    margin-bottom:10px;
+  }
+  .form-desc{
+    font-size:13.5px; line-height:1.6; color:rgba(232,221,211,0.82);
+    margin-bottom:32px; max-width:420px;
+  }
+
+  fieldset{border:none; margin-bottom:26px;}
+  legend{
+    font-size:11.5px; font-weight:700; letter-spacing:0.08em;
+    color:var(--rose); margin-bottom:12px; text-transform:uppercase;
+  }
+  .option-row{display:flex; flex-direction:column; gap:8px;}
+  .option{
+    display:flex; align-items:center; gap:10px;
+    background:rgba(232,221,211,0.08);
+    border:1px solid rgba(232,221,211,0.18);
+    border-radius:10px; padding:11px 14px;
+    cursor:pointer; font-size:13.5px;
+    transition:background .15s, border-color .15s;
+  }
+  .option:hover{background:rgba(232,221,211,0.14);}
+  .option input{accent-color:var(--rose);}
+  .option.selected{border-color:var(--rose); background:rgba(203,164,159,0.18);}
+
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .tab{
+    flex:1; text-align:center;
+    background:rgba(232,221,211,0.08);
+    border:1px solid rgba(232,221,211,0.18);
+    border-radius:20px; padding:9px 14px;
+    font-size:12.5px; font-weight:600; cursor:pointer;
+    transition:background .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  .tab.selected{background:var(--rose); color:var(--bordo-deep); border-color:var(--rose);}
+
+  label.field-label{
+    display:block; font-size:12px; font-weight:600;
+    color:rgba(232,221,211,0.85); margin-bottom:6px;
+  }
+  input[type="text"], textarea{
+    width:100%; font-family:'Manrope',sans-serif; font-size:13.5px;
+    background:rgba(255,255,255,0.92); color:var(--ink);
+    border:1px solid rgba(232,221,211,0.2); border-radius:8px;
+    padding:11px 12px; margin-bottom:16px; resize:vertical;
+  }
+  textarea{min-height:64px;}
+
+  .stepper{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+  .stepper button{
+    width:32px; height:32px; border-radius:50%; border:1px solid rgba(232,221,211,0.3);
+    background:rgba(232,221,211,0.1); color:var(--bege); font-size:16px; cursor:pointer;
+  }
+  .stepper button:hover{background:rgba(232,221,211,0.2);}
+  .stepper span{font-size:15px; font-weight:700; min-width:18px; text-align:center;}
+
+  .generate-btn{
+    width:100%; margin-top:6px;
+    font-family:'Manrope',sans-serif; font-size:14px; font-weight:700;
+    color:var(--bordo-deep); background:var(--rose);
+    border:none; border-radius:24px; padding:14px;
+    cursor:pointer; transition:background .2s, transform .15s;
+  }
+  .generate-btn:hover{background:#F5EBD8;}
+  .generate-btn:active{transform:scale(0.98);}
+
+  /* ---- output panel ---- */
+  .output-panel{
+    background:var(--bege); padding:44px 40px 60px;
+    display:flex; flex-direction:column;
+  }
+  .output-title{
+    font-family:'Cormorant Garamond',serif; font-weight:600; font-size:26px;
+    color:var(--bordo); margin-bottom:20px;
+  }
+  .attach-warning{
+    display:flex; gap:10px; align-items:flex-start;
+    background:rgba(92,26,43,0.08); border:1px solid rgba(92,26,43,0.18);
+    border-radius:10px; padding:14px 16px; margin-bottom:20px;
+    font-size:12.5px; line-height:1.5; color:var(--bordo-deep);
+  }
+  .attach-warning-icon{flex-shrink:0; font-size:15px; color:var(--bordo);}
+
+  .empty-state{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px;
+    color:var(--ink-soft); padding:40px 4px; line-height:1.5;
+  }
+  .prompt-blocks{display:flex; flex-direction:column; gap:18px;}
+  .prompt-block{
+    background:#fff; border:1px solid rgba(92,26,43,0.14);
+    border-radius:10px; padding:18px 20px;
+  }
+  .prompt-block h3{
+    font-size:12px; font-weight:700; letter-spacing:0.06em;
+    color:var(--bordo); text-transform:uppercase; margin-bottom:10px;
+  }
+  .prompt-block pre{
+    font-family:'Manrope',sans-serif; font-size:13px; line-height:1.65;
+    color:var(--ink); white-space:pre-wrap; margin-bottom:14px;
+  }
+  .copy-btn{
+    font-family:'Manrope',sans-serif; font-size:12.5px; font-weight:600;
+    color:#fff; background:var(--bordo); border:none; border-radius:20px;
+    padding:9px 20px; cursor:pointer; transition:background .2s, transform .15s;
+  }
+  .copy-btn:hover{background:var(--bordo-deep);}
+  .copy-btn:active{transform:scale(0.97);}
+  .copy-btn.copied{background:#3d0f1c;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section class="form-panel">
+    <div class="brand-mark">✦ Studio Amanda</div>
+    <a class="back-link" href="index.html">← Voltar para a central da marca</a>
+    <h1 class="form-title">Gerador de prompts<br>para conteúdo</h1>
+    <p class="form-desc">Preencha os campos abaixo e receba um prompt pronto pra colar no ChatGPT — já com a paleta, tipografia e o estilo visual da marca embutidos, pra manter o feed sempre coerente.</p>
+
+    <fieldset>
+      <legend>Sobre a foto</legend>
+      <div class="option-row" id="photo-options">
+        <label class="option selected"><input type="radio" name="photo" value="real" checked>Vou anexar uma foto real para usar de base</label>
+        <label class="option"><input type="radio" name="photo" value="scratch">Não tenho foto — pode gerar do zero</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Tipo de conteúdo</legend>
+      <div class="tabs" id="type-tabs">
+        <div class="tab selected" data-type="reels">Capa de Reels</div>
+        <div class="tab" data-type="post">Post estático</div>
+        <div class="tab" data-type="carrossel">Carrossel</div>
+      </div>
+    </fieldset>
+
+    <div id="fields-reels">
+      <label class="field-label">Título do Reels</label>
+      <input type="text" id="reels-title" placeholder="Ex.: 3 erros que estragam sua unha em casa">
+      <label class="field-label">Tema / contexto (opcional)</label>
+      <textarea id="reels-context" placeholder="Ex.: dica rápida para quem faz unha em casa"></textarea>
+    </div>
+
+    <div id="fields-post" style="display:none;">
+      <label class="field-label">Texto que aparece na tela</label>
+      <input type="text" id="post-text" placeholder="Ex.: Agenda aberta para essa semana">
+      <label class="field-label">Tema / contexto (opcional)</label>
+      <textarea id="post-context" placeholder="Ex.: divulgação de horários disponíveis"></textarea>
+    </div>
+
+    <div id="fields-carrossel" style="display:none;">
+      <label class="field-label">Quantidade de cards</label>
+      <div class="stepper">
+        <button type="button" id="card-minus">−</button>
+        <span id="card-count">3</span>
+        <button type="button" id="card-plus">+</button>
+      </div>
+      <label class="field-label">Capa (card 1)</label>
+      <input type="text" id="carrossel-cover" placeholder="Ex.: Como escolher o formato ideal de unha">
+      <label class="field-label">Conteúdo dos demais cards</label>
+      <textarea id="carrossel-content" placeholder="Ex.: cada card explica um formato de unha diferente"></textarea>
+      <label class="field-label">CTA final</label>
+      <input type="text" id="carrossel-cta" placeholder="Ex.: Agende seu horário pelo link da bio">
+    </div>
+
+    <button class="generate-btn" id="generate-btn">Gerar prompt</button>
+  </section>
+
+  <section class="output-panel">
+    <h2 class="output-title">Prompt gerado</h2>
+    <div class="attach-warning">
+      <span class="attach-warning-icon">⚠</span>
+      <span>Atenção: sempre anexe o logotipo que deseja usar junto com a foto a ser criada, para gerar a arte.</span>
+    </div>
+    <div id="output-area">
+      <p class="empty-state">Preencha os campos ao lado e clique em <strong>Gerar prompt</strong>.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+  var state = { photo: 'real', type: 'reels', cards: 3 };
+
+  document.querySelectorAll('#photo-options .option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      document.querySelectorAll('#photo-options .option').forEach(function(o){ o.classList.remove('selected'); });
+      opt.classList.add('selected');
+      state.photo = opt.querySelector('input').value;
+    });
+  });
+
+  document.querySelectorAll('#type-tabs .tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('#type-tabs .tab').forEach(function(t){ t.classList.remove('selected'); });
+      tab.classList.add('selected');
+      state.type = tab.getAttribute('data-type');
+      document.getElementById('fields-reels').style.display = state.type === 'reels' ? 'block' : 'none';
+      document.getElementById('fields-post').style.display = state.type === 'post' ? 'block' : 'none';
+      document.getElementById('fields-carrossel').style.display = state.type === 'carrossel' ? 'block' : 'none';
+    });
+  });
+
+  document.getElementById('card-minus').addEventListener('click', function(){
+    state.cards = Math.max(3, state.cards - 1);
+    document.getElementById('card-count').textContent = state.cards;
+  });
+  document.getElementById('card-plus').addEventListener('click', function(){
+    state.cards = Math.min(10, state.cards + 1);
+    document.getElementById('card-count').textContent = state.cards;
+  });
+
+  var BRAND_BLOCK = "Siga rigorosamente a identidade visual da Studio Amanda em tudo que gerar:\n\n" +
+"PALETA DE CORES (use somente estes tons como base):\n" +
+"- Bordô profundo #5C1A2B — cor de destaque e fundo principal\n" +
+"- Rosé #CBA49F — cor de apoio, suave\n" +
+"- Mauve #B4A69D — tom neutro terroso\n" +
+"- Bege claro #E8DDD3 — respiro, fundo claro\n\n" +
+"TIPOGRAFIA:\n" +
+"- Títulos: serifada elegante estilo Cormorant Garamond — traços finos, contraste sutil entre cheios e finos, clima editorial e atemporal\n" +
+"- Textos de apoio: sans-serif limpa estilo Manrope — moderna, legível, discreta\n\n" +
+"ESTILO FOTOGRÁFICO E DE COMPOSIÇÃO:\n" +
+"- Luz natural suave e difusa, nunca dura ou artificial\n" +
+"- Tons quentes, levemente dessaturados — sem filtros exagerados\n" +
+"- Muito espaço negativo, composição minimalista, nunca poluída\n" +
+"- Foco em detalhes: mãos, unhas, still life de objetos da paleta (esmalte, flor seca, tecido)\n" +
+"- Quando houver pessoas, momentos naturais de calma e cuidado, sem poses forçadas\n\n" +
+"CLIMA GERAL: elegância, sofisticação e clareza. Nada gritado, nada genérico de salão de bairro — o tom é de atelier/estúdio autoral.";
+
+  function buildPrompt(){
+    var photoLine = state.photo === 'real'
+      ? "Uso a foto que vou anexar como base real — mantenha o enquadramento e o assunto da foto original, ajustando apenas luz, cor e composição para a identidade da marca."
+      : "Não há foto de referência — crie a cena do zero, dentro do universo visual da marca (salão, still life ou detalhe de mãos/unhas).";
+
+    var brief = "";
+    if(state.type === 'reels'){
+      var title = document.getElementById('reels-title').value.trim() || '[título do Reels]';
+      var ctx = document.getElementById('reels-context').value.trim();
+      brief = "TIPO DE PEÇA: Capa de Reels (proporção 9:16)\n" +
+        "Título em destaque na tela: \"" + title + "\"" +
+        (ctx ? "\nContexto/tema: " + ctx : "") +
+        "\nO título deve aparecer com boa legibilidade, tipografia da marca, respeitando espaço de segurança do Instagram (topo e rodapé livres para UI do app).";
+    } else if(state.type === 'post'){
+      var text = document.getElementById('post-text').value.trim() || '[texto do post]';
+      var ctx2 = document.getElementById('post-context').value.trim();
+      brief = "TIPO DE PEÇA: Post estático (proporção 4:5)\n" +
+        "Texto principal na arte: \"" + text + "\"" +
+        (ctx2 ? "\nContexto/tema: " + ctx2 : "") +
+        "\nComposição equilibrada, com respiro suficiente ao redor do texto.";
+    } else {
+      var cover = document.getElementById('carrossel-cover').value.trim() || '[texto da capa]';
+      var content = document.getElementById('carrossel-content').value.trim() || '[conteúdo dos cards internos]';
+      var cta = document.getElementById('carrossel-cta').value.trim() || '[CTA final]';
+      brief = "TIPO DE PEÇA: Carrossel de " + state.cards + " cards (proporção 4:5, todos no mesmo padrão visual)\n" +
+        "Card 1 (capa): \"" + cover + "\"\n" +
+        "Cards 2 a " + state.cards + ": " + content + "\n" +
+        "Último card (CTA): \"" + cta + "\"\n" +
+        "Mantenha o mesmo layout, paleta e tipografia em todos os cards, variando apenas o conteúdo, para o carrossel funcionar como uma peça única quando visto em sequência.";
+    }
+
+    return photoLine + "\n\n" + brief + "\n\n" + BRAND_BLOCK;
+  }
+
+  document.getElementById('generate-btn').addEventListener('click', function(){
+    var promptText = buildPrompt();
+    var area = document.getElementById('output-area');
+    area.innerHTML = '';
+    var block = document.createElement('div');
+    block.className = 'prompt-block';
+    var h3 = document.createElement('h3');
+    h3.textContent = 'Prompt pronto';
+    var pre = document.createElement('pre');
+    pre.textContent = promptText;
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copiar prompt';
+    btn.addEventListener('click', function(){
+      navigator.clipboard.writeText(promptText).then(function(){
+        btn.textContent = 'Copiado ✓';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = 'Copiar prompt'; btn.classList.remove('copied'); }, 1800);
+      });
+    });
+    block.appendChild(h3);
+    block.appendChild(pre);
+    block.appendChild(btn);
+    area.appendChild(block);
+  });
+</script>
+
+</body>
+</html>
