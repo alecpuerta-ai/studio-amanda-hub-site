@@ -35,10 +35,13 @@
     font-size:18px; letter-spacing:0.05em; margin-bottom:6px;
   }
   .back-link{
-    display:inline-block; font-size:12px; color:rgba(232,221,211,0.75);
+    display:inline-block; font-size:12px; font-weight:700;
+    color:var(--bordo-deep); background:var(--bege);
     text-decoration:none; margin-bottom:26px;
+    padding:9px 18px; border-radius:20px;
+    transition:background .2s, transform .15s;
   }
-  .back-link:hover{color:var(--bege);}
+  .back-link:hover{background:#fff; transform:translateY(-1px);}
   .form-title{
     font-family:'Cormorant Garamond',serif; font-weight:600; font-size:30px;
     margin-bottom:10px;
