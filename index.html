@@ -374,6 +374,36 @@
   @media (max-width:600px){
     section{padding:56px 22px;}
   }
+
+  /* ---------- carousel ---------- */
+  #espaco{text-align:center;}
+  .carousel{position:relative; display:flex; align-items:center; gap:10px;}
+  .carousel-viewport{overflow:hidden; flex:1;}
+  .carousel-track{display:flex; gap:14px; transition:transform .45s cubic-bezier(.4,0,.2,1);}
+  .carousel-track img{
+    flex:0 0 calc((100% - 28px)/3);
+    width:calc((100% - 28px)/3);
+    aspect-ratio:4/3; object-fit:cover;
+    border-radius:4px;
+    box-shadow:0 14px 30px rgba(61,15,28,0.14);
+  }
+  .carousel-btn{
+    flex:0 0 auto;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid var(--bordo); background:var(--bg);
+    color:var(--bordo); font-size:20px; line-height:1;
+    cursor:pointer; transition:background .2s, color .2s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .carousel-btn:hover{background:var(--bordo); color:var(--bege);}
+  .carousel-btn:disabled{opacity:0.3; cursor:default;}
+  .carousel-btn:disabled:hover{background:var(--bg); color:var(--bordo);}
+  @media (max-width:760px){
+    .carousel-track img{flex:0 0 calc((100% - 14px)/2); width:calc((100% - 14px)/2);}
+  }
+  @media (max-width:520px){
+    .carousel-track img{flex:0 0 100%; width:100%;}
+  }
 </style>
 </head>
 <body>
@@ -555,10 +585,28 @@
 
   <hr class="rule">
 
-  <section id="espaco" class="content-section">
-    <h2>Projeto do espaço</h2>
-    <p>Fotos de referência do salão e do ambiente que orientaram a paleta de cores (mauve e rosé foram extraídos direto das paredes e móveis já existentes).</p>
-    <a class="link-btn ghost" href="https://drive.google.com/drive/folders/1CeMv3PP1GwJG8TtEQY2TW0v1T_aEkWh2" target="_blank" rel="noopener">Abrir pasta de fotos do espaço no Drive</a>
+  <section id="espaco">
+    <p class="eyebrow">Projeto do espaço</p>
+    <p style="text-align:center;max-width:560px;margin:0 auto 40px;font-size:14.5px;line-height:1.7;color:var(--ink-soft);">Fotos de referência do salão e do ambiente que orientaram a paleta de cores (mauve e rosé foram extraídos direto das paredes e móveis já existentes).</p>
+    <div class="carousel" id="espaco-carousel">
+      <button class="carousel-btn prev" type="button" aria-label="Ver fotos anteriores">&#8249;</button>
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <img src="assets/fachada.png" alt="Fachada do Studio Amanda">
+          <img src="assets/recep%C3%A7%C3%A3o.png" alt="Recepção do Studio Amanda">
+          <img src="assets/espera.png" alt="Sala de espera do Studio Amanda">
+          <img src="assets/canto%20do%20caf%C3%A9%20%2B%20recep%C3%A7%C3%A3o.png" alt="Canto do café e recepção">
+          <img src="assets/setor%20unha.png" alt="Setor de unhas">
+          <img src="assets/setor%20do%20cabelo.png" alt="Setor de cabelo">
+          <img src="assets/setor%20dos%20produtos%20a%20venda.png" alt="Setor de produtos à venda">
+          <img src="assets/setor%20de%20produtos%20com%20biombo%20e%20maca.png" alt="Setor de produtos com biombo e maca">
+        </div>
+      </div>
+      <button class="carousel-btn next" type="button" aria-label="Ver próximas fotos">&#8250;</button>
+    </div>
+    <p style="text-align:center;margin-top:28px;">
+      <a class="hero-cta" href="https://drive.google.com/drive/folders/1CeMv3PP1GwJG8TtEQY2TW0v1T_aEkWh2" target="_blank" rel="noopener">Abrir pasta de fotos do espaço no Drive</a>
+    </p>
   </section>
 
   <hr class="rule">
@@ -601,6 +649,48 @@
       link.classList.add('active');
     });
   });
+
+  (function(){
+    var track = document.querySelector('#espaco-carousel .carousel-track');
+    var prevBtn = document.querySelector('#espaco-carousel .prev');
+    var nextBtn = document.querySelector('#espaco-carousel .next');
+    if(!track) return;
+    var items = track.children;
+    var index = 0;
+
+    function visibleCount(){
+      var w = window.innerWidth;
+      if(w <= 520) return 1;
+      if(w <= 760) return 2;
+      return 3;
+    }
+
+    function update(){
+      var vCount = visibleCount();
+      var maxIndex = Math.max(0, items.length - vCount);
+      if(index > maxIndex) index = maxIndex;
+      var itemWidth = items[0].getBoundingClientRect().width;
+      var gap = 14;
+      var offset = index * (itemWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= maxIndex;
+    }
+
+    prevBtn.addEventListener('click', function(){
+      index = Math.max(0, index - 1);
+      update();
+    });
+    nextBtn.addEventListener('click', function(){
+      var vCount = visibleCount();
+      var maxIndex = Math.max(0, items.length - vCount);
+      index = Math.min(maxIndex, index + 1);
+      update();
+    });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    update();
+  })();
 </script>
 
 </body>
